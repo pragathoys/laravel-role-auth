@@ -36,4 +36,55 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+   /* Returns the roles of the user*/
+    public function roles()
+    {
+        return $this
+            ->belongsToMany('App\Role')
+            ->withTimestamps();
+    }
+
+  /* returns the users */
+    public function users()
+    {
+        return $this
+            ->belongsToMany('App\User')
+            ->withTimestamps();
+    }
+
+    /*Allow only specific roles per user*/
+    public function authorizeRoles($roles)
+    {
+      if ($this->hasAnyRole($roles)) {
+        return true;
+      }
+      abort(401, 'You are not permitted to do this action.');
+    }
+
+    /* Check  if the user has any of the selcted roles*/
+    public function hasAnyRole($roles)
+    {
+      if (is_array($roles)) {
+        foreach ($roles as $role) {
+          if ($this->hasRole($role)) {
+            return true;
+          }
+        }
+      } else {
+        if ($this->hasRole($roles)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    /* Check if a user has a role */
+    public function hasRole($role)
+    {
+      if ($this->roles()->where(‘title’, $role)->first()) {
+        return true;
+      }
+      return false;
+    }
 }
