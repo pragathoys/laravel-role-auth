@@ -3,6 +3,7 @@
         Options -MultiViews -Indexes
     </IfModule>
 
+    RewriteBase /laravel-role-auth
     RewriteEngine On
 
     # Handle Authorization Header
