@@ -21,10 +21,24 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
+Route::get('/admin/home',[
+       'uses'=>'AdminController@home',
+        'as'=>'admin.home',
+        'roles'=>['Admin']
 
-Route::get('/home', 'HomeController@index')->name('home');
+        ]);
 
-Auth::routes();
+Route::get('/admin',[
+       'uses'=>'HomeController@admin',
+	'as'=>'admin',
+        'middleware' => 'roles',
+        'roles'=>['Admin']
+	]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/moderate',[
+	'uses'=>'HomeController@moderate',
+	'as'=>'moderate',
+        'middleware' => 'roles',
+        'roles'=>['Admin','Moderator']
+	]);

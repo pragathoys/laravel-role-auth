@@ -34,6 +34,24 @@ php artisan db:seed
 php artisan make:middleware CheckRole
 ```
 
+## 5. Add code in the routes to use middleware
+
+```
+Route::get('/admin',[
+       'uses'=>'HomeController@admin',
+        'as'=>'admin',
+        'middleware' => 'roles',
+        'roles'=>['Admin']
+        ]);
+
+```
+
+## 6. You can add the middelware also in a controller
+
+```
+php artisan make:controller AdminController
+```
+
 ## License
 
 This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
